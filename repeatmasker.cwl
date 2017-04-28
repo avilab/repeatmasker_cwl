@@ -14,7 +14,9 @@ label: RepeatMasker
 doc: |
   ![build_status](https://quay.io/repository/biocontainers/repeatmasker/status)
   [RepeatMasker](http://www.repeatmasker.org/) is a program that screens DNA
-  sequences for interspersed repeats and low complexity DNA sequences.
+  sequences for interspersed repeats and low complexity DNA sequences. This
+  tool made available via bioconda and the resulting biocontainers container
+  image is built from that conda recipe.
 class: CommandLineTool
 
 dct:creator:
