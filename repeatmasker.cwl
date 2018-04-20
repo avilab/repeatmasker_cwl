@@ -28,23 +28,42 @@ requirements:
   - class: EnvVarRequirement
     envDef:
       - envName: REPEATMASKER_MATRICES_DIR
-        envValue: $(inputs.repeatMaskerDir.path)/Matrices
+        envValue: |
+          ${ return inputs.repeatMaskerMatricesDir ? inputs.repeatMaskerMatricesDir.path : "NULL" }
       - envName: REPEATMASKER_LIB_DIR
-        envValue: $(inputs.repeatMaskerDir.path)/Libraries
+        envValue: |
+          ${ return inputs.repeatMaskerMainLib && inputs.repeatMaskerMainLib.LibDir ? inputs.repeatMaskerMainLib.LibDir.path : "NULL" }
+      - envName: REPEATMASKER_REPBASE_FILE
+        envValue: |
+          ${ return inputs.repeatMaskerMainLib && inputs.repeatMaskerMainLib.RepbaseFile ? inputs.repeatMaskerMainLib.RepbaseFile.path : "NULL" }
       - envName: REPEATMASKER_CACHE_DIR
         envValue: /tmp  # make RepeatMasker build its database in /tmp
+  - class: InlineJavascriptRequirement
 
 hints:
   - class: DockerRequirement
-    dockerPull: "quay.io/biocontainers/repeatmasker:4.0.7--pl5.22.0_10"
+    dockerPull: "quay.io/biocontainers/repeatmasker:4.0.7--pl5.22.0_12"
 
 inputs:
   fastaFile:
     type: File
     inputBinding:
       position: 1
-  repeatMaskerDir:
-    type: Directory
+
+  repeatMaskerMainLib:
+    type:
+      - type: record
+        name: LibDir
+        fields:
+          LibDir:
+            type: Directory?
+      - type: record
+        name: RepbaseFile
+        fields:
+          RepbaseFile:
+            type: File?
+  repeatMaskerMatricesDir:
+    type: Directory?
   library:
     type: File?
     inputBinding:
@@ -171,10 +190,6 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.fastaFile.basename).cat
-  originalOutput:
-    type: File
-    outputBinding:
-      glob: $(inputs.fastaFile.basename).ori.out
   annotation:
     type: File
     outputBinding:
