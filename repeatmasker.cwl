@@ -31,10 +31,12 @@ requirements:
         envValue: $(inputs.repeatMaskerDir.path)/Matrices
       - envName: REPEATMASKER_LIB_DIR
         envValue: $(inputs.repeatMaskerDir.path)/Libraries
+      - envName: REPEATMASKER_CACHE_DIR
+        envValue: /tmp  # make RepeatMasker build its database in /tmp
 
 hints:
   - class: DockerRequirement
-    dockerPull: "quay.io/biocontainers/repeatmasker:4.0.6--pl5.22.0_9"
+    dockerPull: "quay.io/biocontainers/repeatmasker:4.0.7--pl5.22.0_10"
 
 inputs:
   fastaFile:
