@@ -154,7 +154,11 @@ inputs:
     inputBinding:   # TODO: need to pick up this output
       prefix: "-gff"
 
-baseCommand: [ "RepeatMasker", "-dir", "/var/spool/cwl" ]
+baseCommand: [ RepeatMasker ]
+
+arguments:
+  - prefix: -dir
+    valueFrom: $(runtime.outdir)
 
 # stdout: masked.fasta
 
